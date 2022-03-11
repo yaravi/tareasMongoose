@@ -2,9 +2,14 @@
 const dotenv = require('dotenv').config();
 // Error handler module
 const {errorHandler} = require ('./middleware/errorMiddleware')
+// Import DB.JS MongoDB connection
+const {connectDB} = require ('./config/db')
 // Load express library
 const express = require('express');
 const port = process.env.PORT;
+
+// Call connectDB function
+connectDB();
 
 // Create express application
 const app = express();
