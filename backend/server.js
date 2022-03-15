@@ -19,6 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 // Import route from tareaRoutes.js
 app.use('/api/tareas', require('./routes/tareaRoutes'))
+app.use('/api/users', require('./routes/userRoutes'))
 // Use the error handler module from errorHandler
 app.use(errorHandler)
 // Express start listening on port defined
