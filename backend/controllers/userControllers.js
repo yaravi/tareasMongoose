@@ -42,28 +42,43 @@ const registerUser = asyncHandler (async (req,res) => {
 //-------------------------------- LOGIN USER
 const loginUser = asyncHandler (async (req,res) => {
     // Destructurar los datos del request.body
-    const {name,email,password} = req.body
+    const {name,email,password} = req.body;
     // Verify if email exists
-    const user = await User.findOne({email})
+    const user = await User.findOne({email});
     // If user exists compare password with hashedPassword
     if (user && (await bcrypt.compare(password, user.password))) {
         res.status(200).json ({
             id: user.id,
             name: user.name,
-            email: user.email
-        })
+            email: user.email,
+            token: generateToken(user.id),
+        });
     } else {
         res.status(400);
-        throw new Error ('Password is incorrect')
-    }
+        throw new Error ('Password is incorrect');
+    };
 });
 //-------------------------------- USER PROFILE
 const perfilUser = asyncHandler (async(req,res) => {
-    res.json({message: 'Show User Profile'})
+    //Destructuracion de req.user que viene del authMiddelware en protect. Trae toda la info de usuario menos password
+    const { id, name, email } = req.user
+
+    res.status(200).json({
+        id,
+        name,
+        email
+    });
 });
+//-------------------------------- TOKEN GENERATION
+const generateToken = (id) => {
+    return jwt.sign({ id },process.env.JWT_SECRET, { // jwt.sign parametros: payload, secret y tiempo de expiración
+        expiresIn: '30d',
+    });
+};
 //-------------------------------- EXPORT MODULES
 module.exports = {
     registerUser,
     loginUser,
     perfilUser,
+    generateToken,
 }

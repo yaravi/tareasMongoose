@@ -9,7 +9,7 @@ const express = require('express');
 const port = process.env.PORT;
 
 // Call connectDB function
-connectDB();
+connectDB(); //conectar a la db con lo que trae del archivo config/db
 
 // Create express application
 const app = express();
