@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router(); // Needed to manage routes in express
 const {getTareas, postTareas, putTareas, deleteTareas} = require('../controllers/tareaControllers');
-const { protect } = require('../middlewares/authMiddleware') // Import protect from authMiddleware where protect function is created
+const { protect } = require('../middleware/authMiddleware') // Import protect from authMiddleware where protect function is created
 
 // ------------------------------------------------------------------------------
 // METHOD #3

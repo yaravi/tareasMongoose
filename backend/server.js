@@ -1,5 +1,7 @@
 // Load dotenv Library
 const dotenv = require('dotenv').config();
+// CORS library
+const cors = require ('cors');
 // Error handler module
 const {errorHandler} = require ('./middleware/errorMiddleware')
 // Import DB.JS MongoDB connection
@@ -13,6 +15,8 @@ connectDB(); //conectar a la db con lo que trae del archivo config/db
 
 // Create express application
 const app = express();
+// Usar CORS
+app.use(cors())
 // Middleware to have JSON method access
 app.use(express.json())
 // Middleware to use body urlencode 
