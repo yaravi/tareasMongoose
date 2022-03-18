@@ -44,20 +44,18 @@ function App() {
               placeholder= "Ingresa la tarea"
               onChange={(e) => {
                 setValue(e.target.value);
-              }}    
-            />
+              }}/>
           </div>
           <button 
-            onClick={() => console.log('Agregar tarea')} 
-            className="task-input__btn"
-          >
+            onClick={addTask} 
+            className="task-input__btn">
             Ingresar Tarea
           </button>
         </div>
 
         {tasks.map((task) => {
           return (
-            <div className="task">
+            <div key={task._id} className="task">
               <p>{tasks.text}</p>
             </div>
           )
