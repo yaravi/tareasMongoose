@@ -1,35 +1,45 @@
-import './App.css';
 import React, { useState, useEffect } from 'react';
-import {fetchTasks} from './api'
-
+import { fetchTasks, createTask } from './api';
+import './App.css';
 
 
 function App() {
-
-
-
-  const [value, setValue] = useState("")
+  const [taskText, setTaskText] = useState("")
   const [tasks, setTasks] = useState([])
-  console.log(tasks);
+  const [loader, setLoader] = useState(false)
 
-  useEffect(()=> {
-    fetchTasks()
-    .then((res)=>{
-      console.log('Primer carga')
-      setTasks(res.data)
-      console.log(res.data)
-    })
-    .catch(()=> {
-      console.error(err)
-    })
+  // console.count('App se renderiza')
+  console.log(tasks)
+
+  useEffect(() => {
+    setLoader(true);
+    const timeoutId = setTimeout(() => {
+      console.log('Este proceso pasas despues de 5 segundos')
+      fetchTasks()
+        .then((res) => {
+          setTasks(res.data)
+          setLoader(false);
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }, 5000)
+
+    return () => {
+      clearTimeout(timeoutId)
+    }
   }, [])
 
   const addTask = () => {
-    console.log('Agrega la tarea', value)
-    setTasks(tasks.concat({
-      _id: "62314c0c96b0e5d98024cffe" + Math.floor(math.random()*10),
-      text: value
-    }))
+    createTask(taskText)
+    .then((res) => {
+      const createdTask = res.data;
+      setTasks(tasks.concat(createdTask))
+      setTaskText('')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
   }
 
   return (
@@ -40,27 +50,26 @@ function App() {
             <input 
               type="text" 
               className="task-input__text"
-              value={value}
-              placeholder= "Ingresa la tarea"
-              onChange={(e) => {
-                setValue(e.target.value);
-              }}/>
+              value={taskText}
+              placeholder="Ingresa la tarea"
+              onChange={(e) => setTaskText(e.target.value)}    
+            />
           </div>
           <button 
             onClick={addTask} 
-            className="task-input__btn">
+            className="task-input__btn"
+          >
             Ingresar Tarea
           </button>
         </div>
-
+        {loader && (<p style={{ color: 'white' }}>Loading...</p>)}
         {tasks.map((task) => {
           return (
             <div key={task._id} className="task">
-              <p>{tasks.text}</p>
+              <p>{task.text}</p>
             </div>
           )
-        })}
-
+        }).reverse()}
       </header>
     </div>
   );
