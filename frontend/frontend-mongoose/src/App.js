@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTasks, createTask } from './api';
+import { fetchTasks, createTask, deleteTask } from './api';
 import './App.css';
+import { Trash2 } from 'react-feather';
+
+import Button from './components/Button';
+import TextInput from './components/TextInput';
 
 
 function App() {
@@ -9,7 +13,6 @@ function App() {
   const [loader, setLoader] = useState(false)
 
   // console.count('App se renderiza')
-  console.log(tasks)
 
   useEffect(() => {
     setLoader(true);
@@ -42,10 +45,22 @@ function App() {
     })
   }
 
+  const onDeleteTask = (id) => {
+    deleteTask(id)
+    .then((res) => {
+      const deltedTask = res.data
+      setTasks(tasks.filter((t) => t._id !== id))
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  } 
+
   return (
     <div className="app">
       <header className="app-header">
         <div className="task-input__container">
+{/* ------- MODULARIZACION
           <div className="task-input">
             <input 
               type="text" 
@@ -55,19 +70,27 @@ function App() {
               onChange={(e) => setTaskText(e.target.value)}    
             />
           </div>
-          <button 
-            onClick={addTask} 
-            className="task-input__btn"
-          >
-            Ingresar Tarea
-          </button>
+*/}
+          <TextInput 
+            value={taskText}
+            OnChange={(e) => setTaskText(e.target.value)} 
+          />
+          <Button 
+            className="task-input__btn" 
+            onClick={addTask}
+          >Agregar tarea</Button>
         </div>
         {loader && (<p style={{ color: 'white' }}>Loading...</p>)}
         {tasks.map((task) => {
           return (
-            <div key={task._id} className="task">
-              <p>{task.text}</p>
-            </div>
+            <div className="task" key={task._id}>
+              <div className="task__text">
+                <p>{task.text}</p>
+              </div>
+              <div onClick={() => onDeleteTask(task._id)} className="task__delete">
+                <Trash2 />
+              </div>
+            </div> 
           )
         }).reverse()}
       </header>

@@ -16,7 +16,8 @@ const postTareas = asyncHandler (async(req,res) => {
         throw new Error('Need valid format')
     }
     const tarea = await Tarea.create({
-        text: req.body.text
+        text: req.body.text,
+        user: req.user.id
     })
     //console.log(req.body)
     res.status(200).json(tarea)

@@ -6,9 +6,8 @@ const { protect } = require('../middleware/authMiddleware') // Import protect fr
 
 // ------------------------------------------------------------------------------
 // METHOD #3
-router.route('/').get(protect, getTareas).post(protect, postTareas); 
-
-router.route('/:id').put(protect, putTareas).delete(protect, deleteTareas);
+router.route('/').get(protect, getTareas).post(protect, postTareas)
+router.route('/:id').delete(protect, deleteTareas).put(protect, putTareas)
 
 
 /* METHOD #2
