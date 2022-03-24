@@ -1,17 +1,16 @@
 import React from 'react';
-import './TextInput.css'
+import './TextInput.css';
 
-function TextInput({value, onChange}) {
-
-    return (    
-        <input 
-            type="text"
-            className="task-input__text"
-            value={ value }
-            placeholder="Ingresa la tarea"
-            onChange={ onChange }    
-        />
-    )
+function TextInput({ className, value, placeholder, onChange, type }) {
+  return (
+      <input
+        type={type}
+        className={`text-input ${className}`}
+        value={value}
+        placeholder={placeholder}
+        onChange={onChange}    
+      />
+  )
 }
 
-export default TextInput; 
+export default TextInput;
