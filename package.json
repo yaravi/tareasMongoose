@@ -1,13 +1,13 @@
 {
   "name": "tareasmongoose",
   "version": "1.0.0",
-  "description": "",
+  "description": "Task control application",
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js"
   },
-  "author": "",
+  "author": "Yaravi Garcia De Silva",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
